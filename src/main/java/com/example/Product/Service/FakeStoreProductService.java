@@ -1,6 +1,7 @@
 package com.example.Product.Service;
 
 import com.example.Product.DTO.FakeStoreDTO;
+import com.example.Product.Exception.ProductNotFoundException;
 import com.example.Product.Model.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -8,10 +9,14 @@ import org.springframework.web.client.RestTemplate;
 public class FakeStoreProductService implements ProductService{
 
     @Override
-    public Product getProductById(long id) {
+    public Product getProductById(long id) throws ProductNotFoundException{
         String url="https://fakestoreapi.com/products/"+id;
         RestTemplate restTemplate=new RestTemplate();
         FakeStoreDTO fakeStoreDTO=restTemplate.getForObject(url, FakeStoreDTO.class);
+        if(fakeStoreDTO==null){
+            throw new ProductNotFoundException("Product with the given id "+id+" Not found." +
+                    " Kindly give id within 1 to 20");
+        }
         return convertDtoToProduct(fakeStoreDTO);
     }
 

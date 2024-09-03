@@ -1,6 +1,20 @@
 package com.example.Product.Model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import org.hibernate.annotations.GeneratedColumn;
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @GenericGenerator(
+            name="UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     long id;
     String name;
     String description;
